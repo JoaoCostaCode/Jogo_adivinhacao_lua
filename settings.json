@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "lua",
+        "request": "launch",
+        "name": "Launch Lua",
+        "program": "${file}",
+        "runtimeExecutable": "lua",
+        "runtimeArgs": [],
+        "env": {},
+        "args": []
+      }
+    ]
+  }
+  
