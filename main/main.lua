@@ -25,18 +25,19 @@ font = love.graphics.newFont(192)
 
 love.load = function()
 
+	yas = require "yas" "scenes"
 	love.graphics.setFont(font)
 	love.graphics.setColor(255 * DIV, 192 * DIV, 0 * DIV, 128 * DIV) -- just setting these so we know the gui isn't stealing our thunder
 
-	sometext = 'Regras do Numistério:\n1- O jogador comeca com 100 pontos e deve encontrar o numero escondido.\n2- A cada erro, perde 10 pontos.\n3- Tentativas por modo: 10 no facil, 7 no medio e 5 no dificil.\n4- Acertando o numero, voce passa de nivel.\n5- Recompensa ao passar de nivel: facil (+30 pontos), medio (+20 pontos) e dificil (+10 pontos).\n6- Nos niveis:\n   - Facil: numeros de 0 a 100, somando +100 a cada nivel.\n   - Medio: numeros de 0 a 200, duplicando a cada nivel.\n   - Dificil: numeros de 0 a 300, triplicando a cada nivel.\n7- Dicas: MAIOR indica que o numero escondido e maior, MENOR indica que e menor.\n8- A dica QUENTE aparece se voce estiver a 10 numeros de distancia (para mais ou para menos).\n9- O jogo termina se voce desistir, ficar sem tentativas ou sem pontos.\n10- Ao passar de nivel, suas tentativas sao restauradas.\n\nBoa sorte, viajante!\n'
+	--[[regras = 'Regras do Numistério:\n1- O jogador comeca com 100 pontos e deve encontrar o numero escondido.\n2- A cada erro, perde 10 pontos.\n3- Tentativas por modo: 10 no facil, 7 no medio e 5 no dificil.\n4- Acertando o numero, voce passa de nivel.\n5- Recompensa ao passar de nivel: facil (+30 pontos), medio (+20 pontos) e dificil (+10 pontos).\n6- Nos niveis:\n   - Facil: numeros de 0 a 100, somando +100 a cada nivel.\n   - Medio: numeros de 0 a 200, duplicando a cada nivel.\n   - Dificil: numeros de 0 a 300, triplicando a cada nivel.\n7- Dicas: MAIOR indica que o numero escondido e maior, MENOR indica que e menor.\n8- A dica QUENTE aparece se voce estiver a 10 numeros de distancia (para mais ou para menos).\n9- O jogo termina se voce desistir, ficar sem tentativas ou sem pontos.\n10- Ao passar de nivel, suas tentativas sao restauradas.\n\nBoa sorte, viajante!\n'
 
-	local textout = gui:typetext(sometext, {y = 32, w = 128})
+	local textout = gui:text(regras, {y = 32, w = 1280})
 
 	-- button
 	local button = gui:button('Continuar', {x = 128, y = gui.style.unit, w = 128, h = gui.style.unit}) -- a button(label, pos, optional parent) gui.style.unit is a standard gui unit (default 16), used to keep the interface tidy
 	button.click = function(this, x, y) -- set element:click() to make it respond to gui's click event
-		gui:feedback('Clicky')
-	end
+		yas.set "regras"
+	end]]
 
 	-- image
 	--[[local image = gui:image('An Image', {160, 32, 0, 0}, nil, 'img.png') -- an image(label, pos, parent, love.image or path)
@@ -131,7 +132,7 @@ love.load = function()
 	end]]
 
 	-- text input
-	input = gui:input('Chat', {64, love.graphics.getHeight() - 32, 256, gui.style.unit})
+	--[[input = gui:input('Chat', {64, love.graphics.getHeight() - 32, 256, gui.style.unit})
 	input.keyrepeat = true -- this is the default anyway
 	input.done = function(this) -- Gspot calls element:done() when you hit enter while element has focus. override this behaviour with element.done = false
 		gui:feedback('I say '..this.value)
@@ -141,7 +142,7 @@ love.load = function()
 	button = gui:button('Speak', {input.pos.w + gui.style.unit, 0, 64, gui.style.unit}, input) -- attach a button
 	button.click = function(this)
 		this.parent:done()
-	end
+	end]]
 
 	-- easy custom gui element
 	--[[gui.boxy = function(this, label, pos, parent) -- careful not to override existing element types, and remember we're inside the gui's scope now
@@ -196,16 +197,16 @@ love.draw = function()
 end
 
 love.keypressed = function(key, code, isrepeat)
-	if gui.focus then
+	--[[if gui.focus then
 		gui:keypress(key) -- only sending input to the gui if we're not using it for something else
-	else
+	else]]
 		if key == 'return'then -- binding enter key to input focus
 			input:focus()
-		elseif key == 'f1' then -- toggle show-hider
+		--[[elseif key == 'f1' then -- toggle show-hider
 			if showhider.display then showhider:hide() else showhider:show() end
 		else
 			gui:feedback(key) -- why not
-		end
+		end]]
 	end
 end
 
