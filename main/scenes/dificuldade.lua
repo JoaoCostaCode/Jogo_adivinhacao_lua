@@ -6,14 +6,19 @@ enter = function(scene)
 end
 
 update = function(scene)
+    diff = {}
+    diff.nivel = 1
     button_facil.click = function(this)
-		set_scene("jogo", 1)
+        diff.dificuldade = 1
+        set_scene("jogo", diff)
 	end
     button_medio.click = function(this)
-		set_scene("jogo", 2)
+        diff.dificuldade = 2
+        set_scene("jogo", diff)
 	end
     button_dificil.click = function(this)
-		set_scene("jogo", 3)
+        diff.dificuldade = 3
+        set_scene("jogo", diff)
 	end
 end
 

@@ -134,7 +134,7 @@ local Gspot = {}
 
 Gspot.style = { -- see Gspot.setComponentMax for colour values
 	unit = 16,
-	font = love.graphics.newFont(10),
+	font = love.graphics.newFont(18),
 	fg = {},
 	bg = {},
 	labelfg = nil, -- defaults to fg when absent

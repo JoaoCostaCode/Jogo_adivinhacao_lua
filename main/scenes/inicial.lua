@@ -4,7 +4,7 @@ nome = nil
 
 enter = function()
     texto = gui:text("Bem-vindo ao Numistério\n\nPor favor, insira seu nome", {y = 32, w = 256})
-    input_nome = gui:input('Nome', {64, love.graphics.getHeight() - 32, 256, gui.style.unit})
+    input_nome = gui:input('Nome', {64, love.graphics.getHeight() - 400, 512, gui.style.unit})
 	input_nome.keyrepeat = true -- this is the default anyway
 	button = gui:button('Enter', {input_nome.pos.w + gui.style.unit, 0, 64, gui.style.unit}, input_nome) -- attach a button
 end

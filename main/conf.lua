@@ -1,4 +1,4 @@
 function love.conf(t)
     t.window.title = "Numisterio"
-    t.console = true
+    --t.console = true
 end
