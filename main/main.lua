@@ -201,19 +201,19 @@ love.keypressed = function(key, code, isrepeat)
 		gui:keypress(key) -- only sending input to the gui if we're not using it for something else
 	else]]
 		if key == 'return'then -- binding enter key to input focus
-			input:focus()
+			input_nome:focus()
 		--[[elseif key == 'f1' then -- toggle show-hider
 			if showhider.display then showhider:hide() else showhider:show() end
 		else
-			gui:feedback(key) -- why not
-		end]]
-	end
+			gui:feedback(key) -- why not]]
+		end
+	--end
 end
 
 love.textinput = function(key)
-	if gui.focus then
+	--if gui.focus then
 		gui:textinput(key) -- only sending input to the gui if we're not using it for something else
-	end
+	--end
 end
 
 -- deal with 0.10 mouse API changes

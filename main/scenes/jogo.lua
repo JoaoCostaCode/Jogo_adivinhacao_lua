@@ -1,80 +1,121 @@
-local jogo = {
-    pontos = 100,
-    perca = 10,
-    nivel = 1,
-    tentativa_facil = 10,
-    tentativa_media = 7,
-    tentativa_dificil = 5,
-    numero_especial_facil = math.random(0, 100),
-    numero_especial_medio = math.random(0,200),
-    numero_especial_dificil = math.random(0,300)
-}
-
-local button_recomecar
-local button_continuar_sim
-local button_continuar_nao
-local button_facil
-local button_medio
-local button_dificil
-local input
+numero_jogador = -1
 
 enter = function(scene, args)
+    jogo = {
+        pontos = 100,
+        perca = 10,
+        nivel = 1,
+        tentativas = 10,
+        numero_especial = love.math.random(0,100)
+    }
     dificuldade = args
-    pontos = 100
-    if dificuldade == 1 then
-        texto_comeca = gui:text("Agora o jogo comecou de verdade. Voce esta no nível " .. jogo.nivel .. ": os valores podem variar de 0 ate " .. jogo.nivel*dificuldade*100 .. ", e voce tem 10 tentativas para tentar acertar.\nDigite um numero, viajante:", {y = 32, w = 256})
-        for i = 1, jogo.tentativa_facil do
-            if jogo.pontos == 0 then
-                texto_game_over = gui:text("Poxa parece que seus pontos acabaram, o jogo terminou para você viajante\nMas nao fique triste, voce chegou ao nivel " .. jogo.nivel .. " parabens!", {y = 20, w = 256})
-                button_recomecar = gui:button('Jogar Novamente', {x = 20, y = 300, w = 128, h = gui.style.unit})
-            end
-            
-            local numero_jogador
-            
-            input = gui:input('Insira um número', {64, love.graphics.getHeight() - 32, 256, gui.style.unit}) --campo para ler a entrada
-	        input.keyrepeat = true
-
-            if numero_jogador == jogo.numero_especial_facil then -- if para verificar se o jogador acertou o numero_especial_facil
-                jogo.pontos = jogo.pontos + 30
-                texto_acertou = gui:text("Voce ganhou! Passou para o proximo nivel com, ".. jogo.pontos .. " pontos, parabens! Deseja parar ou continuar?", {y = 20, w = 256})
-                button_continuar_sim = gui:button('Sim', {x = 20, y = 300, w = 128, h = gui.style.unit})
-                button_continuar_nao = gui:button('Não', {x = 20, y = 300, w = 128, h = gui.style.unit})
-                
-            end
-        end
+    
+    input_numero_jogador = gui:input('Número:', {64, love.graphics.getHeight() - 32, 256, gui.style.unit}) --campo para ler a entrada
+    input_numero_jogador.keyrepeat = true
+    button_numero_jogador = gui:button('Adivinhar!', {input_numero_jogador.pos.w + gui.style.unit, 0, 64, gui.style.unit}, input_numero_jogador) -- attach a button
+    
+    texto_comeca = gui:text("Agora o jogo comecou de verdade!\n\nVoce esta no nível " .. jogo.nivel .. ": os valores podem variar de 0 ate " .. jogo.nivel*dificuldade*100 .. ", e voce tem 10 tentativas para tentar acertar.\n\nDigite um numero, viajante:", {y = 32, w = 1024})
+    if jogo.pontos == 0 then
+        set_scene("game_over", jogo.nivel)
+    else
+        jogar(scene, jogo.nivel, dificuldade)
     end
 end
 
 update = function(scene, args)
-    button_recomecar.click = function(this)
-        set_scene("dificuldade", dificuldade)
+    input_numero_jogador.done = function(this)
+        if this.value ~= nil then -- verifica se a entrada está vazia
+            numero_jogador = tonumber(this.value)-- converte a entrada para número
+            this.value = '' -- limpa a entrada
+        else
+            numero_jogador = -1 --valor padrao
+        end 
     end
-    button_continuar_sim.click = function(this)
-        jogo.nivel = jogo.nivel + 1  -- Avança para o próximo nível -- se ele não escolher 2 quer dizer que quer conrinuar então o nivel é atualizado, o numero especial e as tentativas são colocadas novamente
-        jogo.numero_especial_facil = math.random(0, 100 * jogo.nivel)
-        jogo.tentativa_facil = 10
-        gui:rem(texto_acertou)
-        gui:rem(button_continuar_nao)
-        gui:rem(button_continuar_sim)
-        update(scene, jogo.nivel)
-    end
-    button_continuar_nao.click = function(this)
-        texto_terminar = gui:text("Voce finalizou o jogo no nivel " .. jogo.nivel .. " e com " .. jogo.pontos .. ". Parabens, viajante!\n\nJogo finalizado. Até a próxima!", {y = 20, w = 256})
-    end
-    input.done = function(this)
-        numero_jogador = tonumber(this.value) -- converte a entrada para número
-    end
+    button_numero_jogador.click = function(this)
+        this.parent:done()
+	end
 end
 
 exit = function (scene)
-    gui:rem(texto_comeca)
-    gui:rem(texto_acertou)
-    gui:rem(texto_game_over)
-    gui:rem(texto_terminar)
-    gui:rem(button_continuar_nao)
-    gui:rem(button_continuar_sim)
-    gui:rem(button_facil)
-    gui:rem(button_medio)
-    gui:rem(button_dificil)
-    gui:rem(button_recomecar)
+    limpa_tela()
+end
+
+limpa_tela = function()
+    if texto_game_over ~= nil then gui:rem(texto_game_over) end
+    if texto_comeca ~= nil then gui:rem(texto_comeca) end
+    if texto_acertou ~= nil then gui:rem(texto_acertou) end
+    if texto_game_over ~= nil then gui:rem(texto_game_over) end
+    if texto_terminar ~= nil then gui:rem(texto_terminar) end
+    if button_continuar_nao ~= nil then gui:rem(button_continuar_nao) end
+    if button_continuar_sim ~= nil then gui:rem(button_continuar_sim) end
+    if button_recomecar ~= nil then gui:rem(button_recomecar) end
+    if button_numero_jogador ~= nil then gui:rem(button_numero_jogador) end
+    if input_numero_jogador ~= nil then gui:rem(input_numero_jogador) end
+end
+
+jogar = function(scene, nivel, dificuldade)
+    jogo.numero_especial = love.math.random(0, dificuldade*100)
+    if dificuldade == 1 then 
+        jogo.tentativas = 10
+        tentativas_iniciais = 10
+    elseif dificuldade == 2 then
+        jogo.tentativas = 7
+        tentativas_iniciais = 7
+    else
+        jogo.tentativas = 5
+        tentativas_iniciais = 5
+    end
+    print(jogo.numero_especial)
+    update = function(dt)
+        if button_continuar_sim ~= nil then
+            button_continuar_sim.click = function(this)
+                jogo.nivel = jogo.nivel + 1  -- Avança para o próximo nível -- se ele não escolher 2 quer dizer que quer conrinuar então o nivel é atualizado, o numero especial e as tentativas são colocadas novamente
+                jogo.numero_especial = math.random(0, 100 * jogo.nivel)
+                jogo.tentativas = tentativas_iniciais
+                limpa_tela()
+                --jogar(scene, jogo.nivel, dificuldade)
+            end    
+        end
+        if button_continuar_nao ~= nil then
+            button_continuar_nao.click = function(this)
+                limpa_tela()
+                texto_terminar = gui:text("Voce finalizou o jogo no nivel " .. jogo.nivel .. " e com " .. jogo.pontos .. " pontos. Parabens, viajante!\n\nJogo finalizado. Até a próxima!", {y = 20, w = 256})
+            end
+        end
+        input_numero_jogador.done = function(this)
+            print(numero_jogador)
+            if this.value ~= nil then -- verifica se a entrada está vazia
+                numero_jogador = tonumber(this.value)-- converte a entrada para número
+                this.value = '' -- limpa a entrada
+            else
+                numero_jogador = -1 --valor padrao
+            end 
+            print(numero_jogador)
+            adivinhar()
+        end
+        button_numero_jogador.click = function(this)
+            this.parent:done()
+        end
+    end
+    adivinhar = function()
+        if numero_jogador == jogo.numero_especial and numero_jogador >= 0 then -- if para verificar se o jogador acertou o numero_especial
+            jogo.pontos = jogo.pontos + (30 - ((dificuldade-1)*10))
+            limpa_tela()
+            texto_acertou = gui:text("Voce ganhou! Passou para o proximo nivel com ".. jogo.pontos .. " pontos, parabens!\n\nDeseja parar ou continuar?", {y = 20, w = 500})
+            button_continuar_sim = gui:button('Continuar', {x = 20, y = 300, w = 128, h = gui.style.unit})
+            button_continuar_nao = gui:button('Parar', {x = 150, y = 300, w = 128, h = gui.style.unit})
+        elseif math.abs(numero_jogador - jogo.numero_especial) <= 10 and numero_jogador >= 0 then -- caso o jogador não acerte ele tem direito a dica especial caso o numero escondido esteja em um intervalo de 10 numeros
+            print("QUENTE!.")
+        elseif numero_jogador < jogo.numero_especial and numero_jogador >= 0 then -- o jogador sempre terá direito a essa dica que dirá se o numero desejado é maior ou menor, no caso desse if seria para maior.
+            jogo.tentativas = math.abs(jogo.tentativas -1)
+            print('o numero que voce quer e MAIOR e voce tem mais '.. jogo.tentativas .. ' tentativas')
+            jogo.pontos = jogo.pontos - jogo.perca
+            print('Voce esta com ' .. jogo.pontos .. ' pontos')
+        elseif numero_jogador >= 0 then
+            jogo.tentativas = math.abs(jogo.tentativas -1)
+            print('o numero que voce quer e MENOR e voce tem mais '.. jogo.tentativas .. ' tentativas' )
+            jogo.pontos = jogo.pontos - jogo.perca
+            print('Voce esta com ' .. jogo.pontos .. ' pontos')
+        end
+    end
 end

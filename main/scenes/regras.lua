@@ -5,11 +5,11 @@ local regras = 'Regras do Numistério:\n1- O jogador comeca com 100 pontos e dev
 enter = function(scene, args)
     nome = args
     texto = gui:text(regras, {y = 32, w = 1280})
-    button = gui:button('Continuar', {x = 128, y = 300, w = 128, h = gui.style.unit})
+    button_continuar = gui:button('Continuar', {x = 128, y = 300, w = 256, h = gui.style.unit})
 end
 
 update = function(scene)
-    button.click = function(this, x, y)
+    button_continuar.click = function(this, x, y)
         set_scene("dificuldade")
     end
 end
@@ -19,5 +19,5 @@ end
 
 exit = function(scene)
     gui:rem(texto)
-    gui:rem(button)
+    gui:rem(button_continuar)
 end
