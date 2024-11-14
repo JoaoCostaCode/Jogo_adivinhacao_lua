@@ -27,7 +27,9 @@ love.load = function()
 
 	yas = require "yas" "scenes"
 	love.graphics.setFont(font)
-	love.graphics.setColor(255 * DIV, 192 * DIV, 0 * DIV, 128 * DIV) -- just setting these so we know the gui isn't stealing our thunder
+	--love.graphics.setColor(255 * DIV, 192 * DIV, 0 * DIV, 128 * DIV) -- just setting these so we know the gui isn't stealing our thunder
+
+	background = love.graphics.newImage("img/bg.png")--background
 
 	--[[regras = 'Regras do Numistério:\n1- O jogador comeca com 100 pontos e deve encontrar o numero escondido.\n2- A cada erro, perde 10 pontos.\n3- Tentativas por modo: 10 no facil, 7 no medio e 5 no dificil.\n4- Acertando o numero, voce passa de nivel.\n5- Recompensa ao passar de nivel: facil (+30 pontos), medio (+20 pontos) e dificil (+10 pontos).\n6- Nos niveis:\n   - Facil: numeros de 0 a 100, somando +100 a cada nivel.\n   - Medio: numeros de 0 a 200, duplicando a cada nivel.\n   - Dificil: numeros de 0 a 300, triplicando a cada nivel.\n7- Dicas: MAIOR indica que o numero escondido e maior, MENOR indica que e menor.\n8- A dica QUENTE aparece se voce estiver a 10 numeros de distancia (para mais ou para menos).\n9- O jogo termina se voce desistir, ficar sem tentativas ou sem pontos.\n10- Ao passar de nivel, suas tentativas sao restauradas.\n\nBoa sorte, viajante!\n'
 
@@ -190,7 +192,11 @@ end
 love.draw = function()
 	--[[local bg = 'OBEY'
 	love.graphics.print(bg, 0, 240, math.pi / 4, 1, 1)]]
-
+	for i = 0, love.graphics.getWidth() / background:getWidth() do
+        for j = 0, love.graphics.getHeight() / background:getHeight() do
+            love.graphics.draw(background, i * background:getWidth(), j * background:getHeight())
+        end
+    end
 	gui:draw()
 
 	--love.graphics.print(bg, 320, 240, math.pi / 4, 1, 1)
