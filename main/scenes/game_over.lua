@@ -4,14 +4,12 @@ enter = function(scene, args)
 end
 
 update = function(scene)
-    if button_recomecar ~= nil then 
-        button_recomecar.click = function(this)
-            set_scene("dificuldade", dificuldade)
-        end
+    button_recomecar.click = function(this)
+        set_scene("dificuldade")
     end
 end
 
 exit = function(scene)
-    if texto_perdeu ~= nil then gui:rem(texto_perdeu) end
-    if button_recomecar ~= nil then gui:rem(button_recomecar) end
+    if texto_perdeu then gui:rem(texto_perdeu) end
+    if button_recomecar then gui:rem(button_recomecar) end
 end

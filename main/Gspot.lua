@@ -134,7 +134,7 @@ local Gspot = {}
 
 Gspot.style = { -- see Gspot.setComponentMax for colour values
 	unit = 16,
-	font = love.graphics.newFont(18),
+	font = love.graphics.newFont("resources/Cinzel-Bold.ttf", 18),
 	fg = {},
 	bg = {},
 	labelfg = nil, -- defaults to fg when absent
@@ -801,7 +801,7 @@ Gspot.text = {
 	draw = function(this, pos)
 		setColor(this.style.labelfg or this.style.fg)
 		if this.autosize then lgprint(this.label, pos.x + (this.style.unit / 4), pos.y + (this.style.unit / 8))
-		else lgprintf(this.label, pos.x + (this.style.unit / 4), pos.y + (this.style.unit / 8), (this.autosize and pos.w) or pos.w - (this.style.unit / 2), 'left') end
+		else lgprintf(this.label, pos.x + (this.style.unit / 4), pos.y + (this.style.unit / 8), (this.autosize and pos.w) or pos.w - (this.style.unit / 2), 'center') end
 	end,
 }
 setmetatable(Gspot.text, {__index = Gspot.util, __call = Gspot.text.load})
@@ -934,11 +934,11 @@ Gspot.input = {
 	end,
 	draw = function(this, pos)
 		if this == this.Gspot.focus then
-			setColor(this.style.bg)
+			setColor(0,0,0,0)
 		elseif this == this.Gspot.mousein then
-			setColor(this.style.hilite)
+			setColor(0,0,0,0)
 		else
-			setColor(this.style.default)
+			setColor(0,0,0,0)
 		end
 		this:drawshape(pos)
 		-- Margin of edit box is unit/4 on each side, so total margin is unit/2
