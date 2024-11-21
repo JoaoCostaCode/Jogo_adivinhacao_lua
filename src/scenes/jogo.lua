@@ -1,22 +1,36 @@
 enter = function(scene, args)
     -- verifica se o jogo já começou
-    if args.numero_jogador and args.numero_especial and args.tentativas and args.pontos then
-        local partida_comecou = true
+    if args.continua then
         dadosDraw = {}
         dadosDraw.numero_jogador = args.numero_jogador
         dadosDraw.numero_especial = args.numero_especial
-        texto_comeca = gui:text("Continuando para o proximo nivel...\n\nVocê está no nível " .. args.nivel .. ": os valores podem variar de 0 até " .. args.nivel*args.dificuldade*100 .. "\n\nDigite um numero, viajante:", {x = love.graphics.getWidth()/2-350.5, y = 90, w = 700, h = 150})
+        if args.numero_especial then
+            texto_comeca = gui:text("\n\nVocê está no nível " .. args.nivel .. ": os valores podem variar de 0 até " .. args.nivel*args.dificuldade*100 .. "\n\nDigite um numero, viajante:", {x = love.graphics.getWidth()/2-350.5, y = 90, w = 700, h = 150})
+        else
+            texto_comeca = gui:text("Continuando para o proximo nivel...\n\nVocê está no nível " .. args.nivel .. ": os valores podem variar de 0 até " .. args.nivel*args.dificuldade*100 .. "\n\nDigite um numero, viajante:", {x = love.graphics.getWidth()/2-350.5, y = 90, w = 700, h = 150})
+        end
     else
         -- inicializa se o jogo não começou
+        texto_comeca = gui:text("Agora o jogo comecou de verdade!\n\nVocê está no nível " .. args.nivel .. ": os valores podem variar de 0 até " .. args.nivel*args.dificuldade*100 .. "\n\nDigite um numero, viajante:", {x = love.graphics.getWidth()/2-350.5, y = 90, w = 700, h = 150})
         args.pontos = 100
         if args.dificuldade == 1 then
             args.tentativas = 10
+            args.tentativas_iniciais = 10
         elseif args.dificuldade == 2 then
             args.tentativas = 7
+            args.tentativas_iniciais = 7
         elseif args.dificuldade == 3 then
             args.tentativas = 5
+            args.tentativas_iniciais = 5
         end
-        texto_comeca = gui:text("Agora o jogo comecou de verdade!\n\nVocê está no nível " .. args.nivel .. ": os valores podem variar de 0 até " .. args.nivel*args.dificuldade*100 .. "\n\nDigite um numero, viajante:", {x = love.graphics.getWidth()/2-350.5, y = 90, w = 700, h = 150})
+    end
+
+    --verifica se já existe um número alvo, se não, gera um novo número alvo
+    if not args.numero_especial then
+        partida_comecou = false
+        args.numero_especial = love.math.random(0, args.nivel*args.dificuldade*100)
+    else
+        partida_comecou = true
     end
     
     -- quantidade de pontos perdidos por erro
@@ -25,7 +39,7 @@ enter = function(scene, args)
     -- exibe a quantidade de pontos
     texto_pontos = gui:text(args.pontos .. " Pontos", {x = love.graphics.getWidth()-350, y = 415, w = 300, h = 50})
     -- tentativas restántes
-    texto_tentativas = gui:text(args.tentativas .. ' tentativas restántes', {x = 50, y = 415, w = 300, h = 50})
+    texto_tentativas = gui:text(args.tentativas .. ' tentativas restantes', {x = 50, y = 415, w = 300, h = 50})
     
     --verifica se o jogo já começou
     if partida_comecou then
@@ -86,8 +100,6 @@ limpa_tela = function() --remove todos os objetos da tela
 end
 
 jogar = function(scene, dados)
-    --verifica se já existe um número alvo, se não, gera um novo número alvo
-    if not dados.numero_especial then dados.numero_especial = love.math.random(0, dados.nivel*dados.dificuldade*100) end
     --print(dados.numero_especial) --para testes
     update = function(dt)
         if input_numero_jogador then
@@ -121,6 +133,7 @@ jogar = function(scene, dados)
                 set_scene("game_over", gameoverVar)
             else
                 dados.tentativas = math.abs(dados.tentativas -1)
+                dados.continua = true
                 set_scene("jogo", dados)
             end
         end

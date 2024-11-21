@@ -10,8 +10,9 @@ update = function(scene, args)
         -- Avança para o próximo nível
         button_continuar_sim.click = function(this)
             dados.nivel = dados.nivel + 1
-            dados.pontos = dados.pontos
             dados.numero_especial = nil
+            dados.continua = true
+            dados.tentativas = dados.tentativas_iniciais
             set_scene("jogo", dados)
         end
     end
