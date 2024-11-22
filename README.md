@@ -8,7 +8,7 @@ Um jogo de adivinhação onde um número é escolhido pelo programa, e o jogador
 * Gráficos: Placa com suporte a OpenGL 2.1+
 
 ## Como jogar
-1. [Baixe o código](https://github.com/JoaoCostaCode/Jogo_adivinhacao_lua/releases/latest).
+1. [Baixe o jogo](https://github.com/JoaoCostaCode/Jogo_adivinhacao_lua/releases/latest).
 2. Execute o programa `Numisterio.exe`.
 3. Siga as instruções na tela.
 
