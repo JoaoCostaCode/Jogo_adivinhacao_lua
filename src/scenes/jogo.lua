@@ -34,7 +34,7 @@ enter = function(scene, args)
     end
     
     -- quantidade de pontos perdidos por erro
-    args.perda = args.dificuldade*10
+    args.perda = 10
     
     -- exibe a quantidade de pontos
     texto_pontos = gui:text(args.pontos .. " Pontos", {x = love.graphics.getWidth()-350, y = 415, w = 300, h = 50})
@@ -124,6 +124,7 @@ jogar = function(scene, dados)
             set_scene("acertou", dados)
         else
             dados.pontos = dados.pontos - dados.perda
+            dados.tentativas = math.abs(dados.tentativas -1)
             if dados.pontos <= 0 or dados.tentativas <= 0 then
                 if dados.pontos < 0 then dados.pontos = 0 end
                 gameoverVar = {}
@@ -132,7 +133,6 @@ jogar = function(scene, dados)
                 gameoverVar.perdeu = true
                 set_scene("game_over", gameoverVar)
             else
-                dados.tentativas = math.abs(dados.tentativas -1)
                 dados.continua = true
                 set_scene("jogo", dados)
             end
