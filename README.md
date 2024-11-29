@@ -1,8 +1,15 @@
 # Numistério
-
 Um jogo de adivinhação onde um número é escolhido pelo programa, e o jogador precisa adivinhar qual número foi escolhido, recebendo dicas sobre o número a cada tentativa.
 
+## Ferramentas utilizadas
+* Lua 5.1
+* [LÖVE 11.5.0](https://love2d.org/)
+* [YAS](https://github.com/kithf/yas): biblioteca de gerenciamento de telas
+* [GSpöt](https://notabug.org/pgimeno/Gspot): biblioteca de gerenciamento de interface
+
 ## Requisitos
+Necessário para a versão 11.5.0 de LÖVE
+
 * Sistema Operacional: Windows 7+ (x64)
 * Processador: Intel Core i3 / AMD (ou equivalente)
 * Gráficos: Placa com suporte a OpenGL 2.1+

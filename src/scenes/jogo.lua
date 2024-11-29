@@ -1,7 +1,7 @@
 enter = function(scene, args)
-    -- verifica se o jogo já começou
+    -- verifica se o jogo já começou para saber se deve inicializar as variáveis
     if args.continua then
-        dadosDraw = {}
+        dadosDraw = {} --usado para verificar se deve exibir os retângulos para a dica "Quente!" na função draw()
         dadosDraw.numero_jogador = args.numero_jogador
         dadosDraw.numero_especial = args.numero_especial
         if args.numero_especial then
@@ -38,12 +38,12 @@ enter = function(scene, args)
     
     -- exibe a quantidade de pontos
     texto_pontos = gui:text(args.pontos .. " Pontos", {x = love.graphics.getWidth()-350, y = 415, w = 300, h = 50})
-    -- tentativas restántes
+    -- tentativas restantes
     texto_tentativas = gui:text(args.tentativas .. ' tentativas restantes', {x = 50, y = 415, w = 300, h = 50})
     
-    --verifica se o jogo já começou
+    --verifica se o jogo já começou para saber se deve exibir as dicas
     if partida_comecou then
-        -- caso o jogador não acerte ele tem direito a dica especial caso o numero escondido esteja em um intervalo de 10 numeros
+        -- caso o jogador não acerte ele tem direito a uma dica especial caso o numero escondido esteja em um intervalo de 10 numeros
         if math.abs(args.numero_jogador - args.numero_especial) <= 10 and args.numero_jogador >= 0 then 
             texto_quente = gui:text('Quente!', {x = love.graphics.getWidth()/2-75, y = 415, w = 150, h = 60})
         end
@@ -82,10 +82,6 @@ draw = function(scene)
 end
 
 exit = function (scene)
-    limpa_tela()
-end
-
-limpa_tela = function() --remove todos os objetos da tela
     if texto_game_over then gui:rem(texto_game_over) end
     if texto_comeca then gui:rem(texto_comeca) end
     if texto_acertou then gui:rem(texto_acertou) end
@@ -123,10 +119,11 @@ jogar = function(scene, dados)
             dados.pontos = dados.pontos + (30 - ((dados.dificuldade-1)*10))
             set_scene("acertou", dados)
         else
+            --se o jogador errou, remove os pontos e 1 tentativa
             dados.pontos = dados.pontos - dados.perda
             dados.tentativas = math.abs(dados.tentativas -1)
-            if dados.pontos <= 0 or dados.tentativas <= 0 then
-                if dados.pontos < 0 then dados.pontos = 0 end
+            if dados.pontos <= 0 or dados.tentativas <= 0 then --verifica se o jogador ficou sem pontos ou tentativas
+                if dados.pontos < 0 then dados.pontos = 0 end --se o jogador ficar sem pontos, zera também a quantidade de tentativas
                 gameoverVar = {}
                 gameoverVar.nivel = dados.nivel
                 gameoverVar.pontos = dados.pontos

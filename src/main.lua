@@ -10,30 +10,33 @@
 -- 3. This notice may not be removed or altered from any source distribution.
 
 if love._version_major == 0 and love._version_minor < 9 then
+	--verifica a versão de LÖVE sendo usada.
 	error("This library needs love2d 0.9.0 or above")
 end
 
 gui = require('Gspot') -- import the library
 
--- 11.0 changes the colour component range from 0-255 to 0-1. Multiplying each
--- component by DIV converts a 0-255 value to the required version-dependent
--- range.
-local DIV = love._version_major >= 11 and 1/255 or 1
-
+--fonte padrão para ser usada
 font = love.graphics.newFont(192)
 
 love.load = function()
+	--importa o módulo YAS para gerenciar scenes
 	yas = require "yas" "scenes"
+	--inicializa a fonte
 	love.graphics.setFont(font)
-	background = love.graphics.newImage("resources/bg.png")--background
+	--importa a imagem de background
+	background = love.graphics.newImage("resources/bg.png")
 end
 
 love.update = function(dt)
+	--manda updates da interface para o gerenciador de interface GSpöt
 	gui:update(dt)
 end
 
 love.draw = function()
-	love.graphics.draw(background)
+	--exibe a imagem de background
+	love.graphics.draw(background) 
+	-- exibe a interface
 	gui:draw()
 end
 
@@ -52,6 +55,7 @@ love.wheelmoved = function(x, y)
 	gui:mousewheel(x, y)
 end
 
+--gera retângulos com as bordas redondas
 function round_rectangle(x, y, width, height, radius, color)
 	love.graphics.setColor(color)
 	--RECTANGLES
