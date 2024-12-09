@@ -23,7 +23,7 @@ Necessário para a versão 11.5.0 de LÖVE
 1. Instale [LÖVE](https://love2d.org/).
 2. Baixe o código.
 3. Na pasta `\src`, crie um arquivo zip com todo o conteúdo dessa pasta.
-   * o arquivo zip não deve coter a pasta `src` dentro do zip, ele precisa conter os arquivos do jeito que estão, com o arquivo `main.lua` na pasta raiz do arquivo zip.
+   * o arquivo zip não deve conter a pasta `src` dentro do zip, ele precisa conter os arquivos do jeito que estão, com o arquivo `main.lua` na pasta raiz do arquivo zip.
 5. Renomeie o arquivo `src.zip` para `src.love`.
 6. Mova o arquivo `src.love` para a pasta onde você instalou LÖVE (passo 1).
 7. Abra o prompt de comando do windows (`CMD`).
